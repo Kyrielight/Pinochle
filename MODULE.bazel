@@ -1,0 +1,21 @@
+'''
+An example Bazel project using bzlmod modules (at the root level) .
+'''
+module(
+    name = "pinochle",
+    repo_name = "moe_best_pinochle"
+)
+
+bazel_dep(name = "rules_java", version = "7.4.0")
+bazel_dep(name = "rules_jvm_external", version = "6.0")
+bazel_dep(name = "rules_kotlin", version = "1.9.0")
+
+# Install external dependencies from Maven
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        # Example dependency from Maven.
+        "org.javacord:javacord:3.8.0",
+    ],
+)
+use_repo(maven, "maven")
